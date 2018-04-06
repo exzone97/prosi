@@ -11,7 +11,6 @@ class account_invoice(osv.osv):
 
 	@api.multi
 	def confirm_paid(self):
-		super(account_invoice, self).confirm_paid()
 	# ketika invoice dibayar, set tanggal bayarnya yaitu tanggal payment pertama
 		payment_date = date.today()
 		for payment in self.payment_ids:
@@ -45,7 +44,7 @@ class account_invoice(osv.osv):
 						break																										#PROSI
 				if multiply > 0 and dayDiff <= temp_invoice_pay_before:																#PROSI
 						point_log = point_obj.browse(self.env.cr, self.env.uid, point_ids[0])										#PROSI
-						point_obj.write(self.env.cr, self.env.uid, [point_log.id],{'point_in':point_log.point_in * multiply})		#PROSI
+						point_obj.write(self.env.cr, self.env.uid, [point_log.id],{'point_in':point_log.point_in * multiply,'special_promo_id':current_promo.id})		#PROSI
 		super(account_invoice, self).confirm_paid()																					#PROSI
 
 		return self.write({'payment_date': payment_date})

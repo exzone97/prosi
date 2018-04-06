@@ -34,5 +34,15 @@
 			</field>
 		</record>
 
+		<record id="inherit_membership_point_log_search" model="ir.ui.view">
+			<field name="name">membership.point.log.search</field>
+			<field name="model">membership.point.log</field>
+			<field name="inherit_id" ref="membership_point.membership_point_log_search"/>
+			<field name="arch" type="xml">
+				<xpath expr="//filter[@name='filter_rejected']" position="after">
+					<filter string="Special Promo" domain="[('special_promo_id','!=',False)]" />
+				</xpath>
+			</field>
+		</record>
 	</data>
 </openerp>

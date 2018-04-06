@@ -255,43 +255,43 @@ class membership_point_member(osv.osv):
 				})
 
 			obj_promo = self.pool.get('membership.point.welcome.promo')												# PROSI
-			# promos = obj_promo.browse(cr, uid, obj_promo.search(cr, uid, []))										# PROSI
-			# first = True																							# PROSI
-			# get_promo = False																						# PROSI
-			# for promo in promos:
-			# 	reg_date = datetime.strptime(member.register_date, DEFAULT_SERVER_DATE_FORMAT)						# PROSI
-			# 	val_from = datetime.strptime(promo.valid_from, DEFAULT_SERVER_DATE_FORMAT)							# PROSI
+			promos = obj_promo.browse(cr, uid, obj_promo.search(cr, uid, []))										# PROSI
+			first = True																							# PROSI
+			get_promo = False																						# PROSI
+			for promo in promos:
+				reg_date = datetime.strptime(member.register_date, DEFAULT_SERVER_DATE_FORMAT)						# PROSI
+				val_from = datetime.strptime(promo.valid_from, DEFAULT_SERVER_DATE_FORMAT)							# PROSI
 
-			# 	if promo.valid_through != False:																	# PROSI
-			# 		val_through = datetime.strptime(promo.valid_through, DEFAULT_SERVER_DATE_FORMAT)				# PROSI
-			# 		if reg_date >= val_from and reg_date <= val_through:											# PROSI
-			# 			if first:																					# PROSI
-			# 				get_promo = promo																		# PROSI
-			# 				first = False																			# PROSI
-			# 			else:																						# PROSI
-			# 				if val_from < datetime.strptime(get_promo.valid_from, DEFAULT_SERVER_DATE_FORMAT):		# PROSI
-			# 					get_promo = promo																	# PROSI
-			# 	else:
-			# 		if reg_date >= val_from:																		# PROSI
-			# 			if first:																					# PROSI
-			# 				get_promo = promo																		# PROSI
-			# 				first = False																			# PROSI
-			# 			else:																						# PROSI
-			# 				if val_from < datetime.strptime(get_promo.valid_from, DEFAULT_SERVER_DATE_FORMAT):		# PROSI
-			# 					get_promo = promo																	# PROSI
+				if promo.valid_through != False:																	# PROSI
+					val_through = datetime.strptime(promo.valid_through, DEFAULT_SERVER_DATE_FORMAT)				# PROSI
+					if reg_date >= val_from and reg_date <= val_through:											# PROSI
+						if first:																					# PROSI
+							get_promo = promo																		# PROSI
+							first = False																			# PROSI
+						else:																						# PROSI
+							if val_from < datetime.strptime(get_promo.valid_from, DEFAULT_SERVER_DATE_FORMAT):		# PROSI
+								get_promo = promo																	# PROSI
+				else:
+					if reg_date >= val_from:																		# PROSI
+						if first:																					# PROSI
+							get_promo = promo																		# PROSI
+							first = False																			# PROSI
+						else:																						# PROSI
+							if val_from < datetime.strptime(get_promo.valid_from, DEFAULT_SERVER_DATE_FORMAT):		# PROSI
+								get_promo = promo																	# PROSI
 			
 			
 			
-			if get_promo:																							# PROSI
-				point_log = self.pool.get("membership.point.log")													# PROSI
-				values = {																							# PROSI
-					'type': 'welcome',																				# PROSI
-					'name': 'Welcome promo points',																	# PROSI
-					'member_id': member.id,																			# PROSI
-					'point_in': get_promo.welcome_point																# PROSI
-				}																									# PROSI
-				log_id = point_log.create(cr,uid,values)															# PROSI
-				point_log.action_approve(cr,uid,log_id)																# PROSI
+			# if get_promo:																							# PROSI
+			# 	point_log = self.pool.get("membership.point.log")													# PROSI
+			# 	values = {																							# PROSI
+			# 		'type': 'welcome',																				# PROSI
+			# 		'name': 'Welcome promo points',																	# PROSI
+			# 		'member_id': member.id,																			# PROSI
+			# 		'point_in': get_promo.welcome_point																# PROSI
+			# 	}																									# PROSI
+			# 	log_id = point_log.create(cr,uid,values)															# PROSI
+			# 	point_log.action_approve(cr,uid,log_id)																# PROSI
 
 		return True
 
