@@ -1,0 +1,65 @@
+<openerp>
+	<data>
+
+<!-- VOUCHER SETTING ============================================================================================================ -->
+
+		<record id="membership_point_voucher_setting_form" model="ir.ui.view">
+			<field name="name">membership.point.voucher.setting.form</field>
+			<field name="model">membership.point.voucher.setting</field>
+			<field name="inherit_id" ref="membership_point.membership_point_voucher_setting_form"/>
+			<field name="arch" type="xml">
+				<field position="before" name="name">
+					<field name="voucher_prefix" />
+				</field>
+			</field>
+		</record>
+
+<!-- SPECIAL PROMO ============================================================================================================== -->
+
+		<record model="ir.ui.view" id="membership_point_special_promo_form">
+			<field name="name">membership.point.special.promo.form</field>
+			<field name="model">membership.point.special.promo</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<field name="name" />
+						<field name="valid_from" />
+						<field name="valid_through" />
+						<field name="invoice_paid_before" />
+					</group>
+					<group string="Multipliers">
+						<field name="multipliers_ids" nolabel="1">
+							<tree editable="bottom">
+								<field name="level_id" />
+								<field name="multiplier" />
+							</tree>
+						</field>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="membership_point_special_promo_tree">
+			<field name="name">membership.point.special.promo.tree</field>
+			<field name="model">membership.point.special.promo</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="valid_from" />
+					<field name="valid_through" />
+					<field name="invoice_paid_before" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="membership_point_special_promo_action" model="ir.actions.act_window">
+			<field name="name">Special Promo</field>
+			<field name="res_model">membership.point.special.promo</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem sequence="5" id="membership_point_menu_special_promo" parent="membership_point.membership_point_menu_voucher_promo" action="membership_point_special_promo_action" />
+
+	</data>
+</openerp>

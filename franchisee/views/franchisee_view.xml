@@ -1,0 +1,223 @@
+<openerp>
+	<data>
+
+		<menuitem id="franchisee_menu_root" name="Franchisee" sequence="20" />
+		<menuitem id="franchisee_menu_config" name="Configuration" sequence="1" parent="franchisee_menu_root" />
+
+
+
+		<!-- Tier =================================================================================================================== -->
+
+		<record id="franchisee_tier_form" model="ir.ui.view">
+			<field name="name">franchisee.tier.form</field>
+			<field name="model">franchisee.tier</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<field name="name" />
+						<field name="percentage" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="franchisee_tier_tree" model="ir.ui.view">
+			<field name="name">franchisee.tier.tree</field>
+			<field name="model">franchisee.tier</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="percentage" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="franchisee_action_tier" model="ir.actions.act_window">
+			<field name="name">Tiers</field>
+			<field name="res_model">franchisee.tier</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="franchisee_menu_tier" sequence="1" parent="franchisee_menu_config" action="franchisee_action_tier" />
+
+		<!-- Franchisee ============================================================================================================= -->
+
+		<record id="franchisee_res_partner_form" model="ir.ui.view">
+			<field name="name">franchisee.res.partner.form.inherit</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//notebook" position="inside">
+					<page string="Franchisee">
+						<group>
+							<field name="is_franchisee" />
+							<field name="tier_id" attrs="{'required':[('is_franchisee','=',True)],'invisible':[('is_franchisee','=',False)]}" />
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="franchisee_res_partner_tree" model="ir.ui.view">
+			<field name="name">franchisee.res.partner.tree</field>
+			<field name="model">res.partner</field>
+			<field name="view_id" ref="franchisee_res_partner_form"/>
+			<field name="arch" type="xml">
+				<tree>
+				</tree>
+			</field>
+		</record>
+
+		<record id="franchisee_action_res_partner" model="ir.actions.act_window">
+			<field name="name">Franchisees</field>
+			<field name="res_model">res.partner</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="franchisee_menu_franchisee" sequence="2" parent="franchisee_menu_config" action="franchisee_action_res_partner" />
+
+		<!-- Invoice ============================================================================================================= -->
+
+		<record id="franchisee_account_invoice_form" model="ir.ui.view">
+			<field name="name">franchisee.account.invoice.form.inherit</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<field position="after" name="partner_id">
+					<field name="franchisee_id" />
+				</field>
+			</field>
+		</record>
+
+		<record id="franchisee_account_invoice_tree" model="ir.ui.view">
+			<field name="name">franchisee.account.invoice.tree</field>
+			<field name="model">account.invoice</field>
+			<field name="view_id" ref="franchisee_account_invoice_form"/>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="franchisee_id" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- Login ============================================================================================================= -->
+
+		<record id="franchisee_res_users_form" model="ir.ui.view">
+			<field name="name">franchisee.res.users.form.inherit</field>
+			<field name="model">res.users</field>
+			<field name="inherit_id" ref="base.view_users_form"/>
+			<field name="arch" type="xml">
+				<field position="after" name="login">
+					<label for="franchisee_id" class="oe_edit_only" string="Franchisee"/>
+					<field name="franchisee_id" />
+				</field>
+			</field>
+		</record>
+
+		<record id="franchisee_res_users_tree" model="ir.ui.view">
+			<field name="name">franchisee.res.users.tree</field>
+			<field name="model">res.users</field>
+			<field name="view_id" ref="base.view_users_tree"/>
+			<field name="arch" type="xml">
+				<tree create="false">
+					<field name="franchisee_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="franchisee_action_users" model="ir.actions.act_window">
+			<field name="name">Users</field>
+			<field name="res_model">res.users</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem id="franchisee_menu_users" sequence="2" parent="franchisee_menu_config" action="franchisee_action_users" />
+
+		<!-- Bill ============================================================================================================= -->
+		<record id="franchisee_bill_form" model="ir.ui.view">
+			<field name="name">franchisee.bill.form</field>
+			<field name="model">franchisee.bill</field>
+			<field name="arch" type="xml">
+				<form create="false" edit="false">
+					<header>
+						<field name="state" readonly="1" widget="statusbar"/>
+					</header>
+					<group>
+						<field name="invoice_id" />
+						<field name="customer_id" />
+						<field name="franchisee_id" />
+						<field name="bill_date" />
+					</group>
+					<group string="Bill lines">
+						<field name="bill_lines" nolabel="1">
+							<tree editable="bottom" create="false" delete="false">
+								<field name="product_id" />
+								<field name="unit_price" />
+								<field name="qty" />
+								<field name="discount_amount" />
+								<field name="subtotal_per_unit" />
+							</tree>
+						</field>
+					</group>
+					<group class="oe_subtotal_footer oe_right">
+						<field name="total_bill" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+						<div>
+							<label for="total_discount"/>
+							<button name="button_reset_taxes" states="draft,proforma2"
+								string="(update)" class="oe_link oe_edit_only"
+								type="object" help="Recompute taxes and total"/>
+						</div>
+						<field name="total_discount" nolabel="1" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+						<field name="total_price_discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="franchisee_bill_tree" model="ir.ui.view">
+			<field name="name">franchisee.bill.tree</field>
+			<field name="model">franchisee.bill</field>
+			<field name="arch" type="xml">
+				<tree create="false" edit="false">
+					<field name="invoice_id" />
+					<field name="customer_id" />
+					<field name="franchisee_id" />
+					<field name="bill_date" />
+					<field name="total_bill" />
+					<field name="total_discount" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="franchisee_invoice_search_view" model="ir.ui.view">
+			<field name="name">franchisee.bill.search</field>
+			<field name="model">franchisee.bill</field>
+			<field name="arch" type="xml">
+				<search string="Search Bill">
+					<group expand="0" string="Group By">
+						<filter string="Month"
+							domain="[]"
+							help="Groupby Month"
+							context="{'group_by':'bill_date'}"/>
+						<filter string="Week"
+							domain="[]"
+							help="Groupby Month"
+							context="{'group_by':'bill_date:week'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="franchisee_action_bills" model="ir.actions.act_window">
+			<field name="name">Bills</field>
+			<field name="res_model">franchisee.bill</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem id="franchisee_menu_bill" sequence="2" parent="franchisee_menu_config" action="franchisee_action_bills" />
+
+	</data>
+</openerp>

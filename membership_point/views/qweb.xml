@@ -1,0 +1,312 @@
+
+<openerp>
+	<data>
+
+		<template id="ciptadlab" name="Ciptalab Website" inherit_id="website.layout">
+            <xpath expr="//ul[1]/li[1]" postition="before">
+                <li ><a href="/vouchers">Vouchers</a></li>
+                <li ><a href="/mypurchases">My Purchases</a></li>
+            </xpath>
+        </template>
+		<!-- Home =================================================================================================================== -->
+		<template id="home">
+			<t t-call="website.layout">
+				<div id="wrap" class="wrap_bg">
+				
+				</div>
+			</t>
+		</template>
+
+		<!-- Vouchers =================================================================================================================== -->
+
+		<template id="vouchers">
+			<t t-call="website.layout">
+				<div id="wrap" class="wrap_bg">
+					<t t-foreach="vouchers" t-as="voucher">
+						<t t-call="membership_point.vouchers_list_row"></t>
+					</t>
+				</div>
+			</t>
+		</template>
+
+		
+		<!-- Vouchers LIst Row =================================================================================================================== -->
+
+		<template id="vouchers_list_row">
+			<div class="row ">
+				<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<t t-esc="voucher.name" />
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-3 col-xs-12 col-sm-12">
+									<center>	
+										<img t-attf-src="data:image/*;base64,{{voucher.thumbnail}}" style="width : 100% ; margin-bottom : 5 px;" />
+									</center>
+								</div>
+								<div class="col-md-9 col-xs-12 col-sm-12">
+									<div class="row">	
+										<div class="col-md-3 col-xs-12 col-sm-12">
+											<b>Name</b>
+										</div>
+										<div class="col-md-9 col-xs-12 col-sm 12">
+											<t t-esc="voucher.name" />
+										</div>
+										<div class="col-md-3 col-xs-12 col-sm 12">
+											<b>Description</b>
+										</div>
+										<div class="col-md-9 col-xs-12 col-sm 12">
+											<t t-esc="voucher.description" />
+										</div>
+										<div class="col-md-3 col-xs-12 col-sm 12">
+											<b>Point Price</b>
+										</div>
+										<div class="col-md-9 col-xs-12 col-sm 12">
+											<t t-esc="voucher.point_price" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">		
+									<center>
+										<a t-attf-href="/vouchers/detail/{{voucher.id}}" t-attf-class="btn btn-success btn-sm active" t-attf-role="button">Details</a>
+									</center>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+
+		<!-- Details Voucher =================================================================================================================== -->
+
+		<template id="detail">
+			<t t-call="website.layout">
+				<div id="wrap" class="wrap_bg">
+					<t t-foreach="vouchers" t-as="voucher">
+						<t t-call="membership_point.details_voucher_row"></t>
+					</t>
+				</div>
+			</t>
+		</template>
+	
+		<!-- Details Voucher Row =================================================================================================================== -->
+		
+		<template id="details_voucher_row">
+			<div t-if="voucher.id == id">
+				<div class="row ">
+					  <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1">
+						<div class="panel panel-primary">
+						<div class="panel-heading">
+							<t t-esc="voucher.name" />
+						</div>
+						<div class="panel-body">
+							<div class="col-md-6 col-xs-12 col-sm-12 ">
+								<center>
+									<img t-attf-src="data:image/*;base64,{{voucher.voucher_image}}" style="width : 100% ; margin-bottom : 5px"  />
+								</center>
+							</div>
+							<div class="col-md-6 col-xs-12 col-sm-12">
+								<div class="row">
+									<div class="col-md-3">
+										<b>Name</b>
+									</div>
+									<div class="col-md-9">
+										<t t-esc="voucher.name" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<b>Description</b>
+									</div>
+									<div class="col-md-9">
+										<t t-esc="voucher.description" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<b>Point Price</b>
+									</div>
+									<div class="col-md-9">
+										<t t-esc="voucher.point_price" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<b>Term and Condition</b>
+									</div>
+									<div class="col-md-9">
+										<span><t t-esc="voucher.terms_and_conditions" /></span>
+									</div>
+								</div>
+								<div t-if="voucher.expired_month">
+									<div class="row">
+										<div class="col-md-3">
+											<b>Expired in </b>
+										</div>
+										<div class="col-md-9">
+											<t t-esc="voucher.expired_month" /><span> month</span>
+										</div>
+									</div>										
+								</div>
+								<div t-if="voucher.expired_date">
+									<div class="row">
+										<div class="col-md-3">
+											<b>Expire Date</b>
+										</div>
+										<div class="col-md-9">
+											<t t-esc="voucher.expired_date" />
+										</div>
+									</div>	
+								</div>
+								<t t-if="voucher.member_level_ids">
+									<div class="row">
+										<div class="col-md-3">
+											<b>Valid for</b>
+										</div>
+										<div class="col-md-9">
+											<t t-foreach="voucher.member_level_ids" t-as="x">
+												<t  t-esc="x.name"  /><br/>
+											</t>
+										</div>
+									</div>
+								</t>
+								<t t-if="voucher.member_level_ids == member.current_level">
+									<form class="form-horizontal" method="post" action="/vouchers/purchase/" style="margin-top : 10px; ">
+										<div class="row">	
+											<div class="col-md-3">	
+												<label for="name" >Qty</label>
+											</div>
+											<div class="col-md-3 col-sm-6 col-xs-9">	
+												<input type="number" value="1" class="form-control" min="1" name="qty" required="true" />
+											</div>
+										</div>
+										<input t-attf-value="{{voucher.id}}" name="voucher_id" type="hidden" />
+
+										<div class="row">
+											<div class="col-md-12">	
+												<button type="submit" class="btn btn-success" style="margin-top : 10px; ">Purchase</button>			
+											</div>
+										</div>								
+									</form>
+								</t>
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		</template>
+
+		<!-- My Purchases =================================================================================================================== -->
+
+		<template id="mypurchases">
+			<t t-call="website.layout">
+				<div id="wrap" class="wrap_bg">
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-ms-12">
+							
+							<ul class="nav nav-tabs">
+								<li ><button data-toggle="tab" class="btn" id="active_tab" >Active</button></li>
+								<li ><button data-toggle="tab" class="btn" id="used_tab">Used</button></li>
+								<li ><button data-toggle="tab" class="btn" id="expired_tab">Expired</button></li>
+							</ul>
+							
+							<div class="tab-content">
+								<div id="activated" class="tab-pane fade in active">
+								</div>
+							</div>	
+						</div>
+					</div>
+
+				</div>
+			</t>
+			<script>
+				$( document ).ready(function() {
+				    $.ajax({
+                        url: "mypurchases/generated",
+                        type: "GET",
+                        dataType: 'json',
+                        traditional: true,
+                        success: function(data){
+                		    $("#activated").empty();
+							data['res'].forEach( function (item) {
+							   	$("#activated").append(
+							   	'<div class="row"><div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1"><div class="panel panel-primary"><div class="panel-heading">'+item.name+'</div><div class="panel-body"><div class="row"><div class="col-md-3 col-xs-12 col-sm-12"><img t-attf-src="data:image/*;base64,{{'+item.img+'}}" style="width : 100% ; margin-bottom : 5px" /></div><div class="col-md-9 col-xs-12 col-sm-12"><div class="row"><div class="col-md-3 col-xs-12 col-sm-12"><b>Voucher number</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.number +'</div><div class="col-md-3 col-xs-12 col-sm-12"><b>Name</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+item.name+'</div><div class="col-md-3 col-xs-12 col-sm 12"><b>Description</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.description+'</div><div class="col-md-3"><b>Term and Condition</b></div><div class="col-md-9">'+item.tnc+'</div><div class="col-md-3 col-xs-12 col-sm 12"><b>Expired Date</b></div><div class="col-md-9 col-xs-12 col-sm 12"><t t-if="'+item.today_date+' &lt; 30"><span >'+ item.expired_date+'</span></t><t t-else="else"><span style="color : red;">'+ item.expired_date+'</span></t></div></div></div></div></div></div></div></div>')
+                        	});
+                        },
+                        error: function(data){
+                            $("#activated").empty();
+                        }
+                    });
+				});
+                $("#active_tab").click(function(){
+                    $.ajax({
+                        url: "mypurchases/generated",
+                        type: "GET",
+                        dataType: 'json',
+                        traditional: true,
+                        success: function(data){
+                		    $("#activated").empty();
+							data['res'].forEach( function (item) {
+							   	$("#activated").append(
+							   	'<div class="row"><div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1"><div class="panel panel-primary"><div class="panel-heading">'+item.name+'</div><div class="panel-body"><div class="row"><div class="col-md-3 col-xs-12 col-sm-12"><img src="data:image/svg+xml;base64,'+item.img+'" style="width : 100% ; margin-bottom : 5px" /></div><div class="col-md-9 col-xs-12 col-sm-12"><div class="row"><div class="col-md-3 col-xs-12 col-sm-12"><b>Voucher number</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.number +'</div><div class="col-md-3 col-xs-12 col-sm-12"><b>Name</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+item.name+'</div><div class="col-md-3 col-xs-12 col-sm 12"><b>Description</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.description+'</div><div class="col-md-3"><b>Term and Condition</b></div><div class="col-md-9">'+item.tnc+'</div><div class="col-md-3 col-xs-12 col-sm 12"><b>Expired Date</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.expired_date+'</div></div></div></div></div></div></div></div>')
+                        	});
+                        },
+                        error: function(data){
+                            $("#activated").empty();
+                            $("#activated").append('<h1>Tidak mempunyai voucher</h1>');
+                        }
+                    });
+                });
+                $("#used_tab").click(function(){
+                    $.ajax({
+                        url: "mypurchases/used",
+                        type: "GET",
+                        dataType: 'json',
+                        traditional: true,
+                        success: function(data){
+                		    $("#activated").empty();
+							data['res'].forEach( function (item) {
+							   	$("#activated").append(
+							   	'<div class="row"><div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1"><div class="panel panel-primary"><div class="panel-heading">'+item.name+'</div><div class="panel-body"><div class="row"><div class="col-md-3 col-xs-12 col-sm-12"><img src="data:image/svg+xml;base64,'+item.img+'" style="width : 100% ; margin-bottom : 5px" /></div><div class="col-md-9 col-xs-12 col-sm-12"><div class="row"><div class="col-md-3 col-xs-12 col-sm-12"><b>Voucher number</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.number +'</div><div class="col-md-3 col-xs-12 col-sm-12"><b>Name</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+item.name+'</div><div class="col-md-3 col-xs-12 col-sm 12"><b>Description</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.description+'</div><div class="col-md-3"><b>Term and Condition</b></div><div class="col-md-9">'+item.tnc+'</div><div class="col-md-3 col-xs-12 col-sm 12"><b>Usage Date</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+item.usage_date+'</div><div class="col-md-3 col-xs-12 col-sm 12"><b>Expired Date</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.expired_date+'</div></div></div></div></div></div></div></div>')
+                        	});
+                        },
+                        error: function(data){
+                            $("#activated").empty();
+                            $("#activated").append('<h1>Tidak mempunyai voucher yang sudah terpakai</h1>');
+                        }
+                    });
+                });
+                $("#expired_tab").click(function(){
+                    $.ajax({
+                        url: "mypurchases/expired",
+                        type: "GET",
+                        dataType: 'json',
+                        traditional: true,
+                        success: function(data){
+                		    $("#activated").empty();
+							data['res'].forEach( function (item) {
+							   	$("#activated").append(
+							   	'<div class="row"><div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1"><div class="panel panel-primary"><div class="panel-heading">'+item.name+'</div><div class="panel-body"><div class="row"><div class="col-md-3 col-xs-12 col-sm-12"><img src="data:image/svg+xml;base64,'+item.img+'" style="width : 100% ; margin-bottom : 5px" /></div><div class="col-md-9 col-xs-12 col-sm-12"><div class="row"><div class="col-md-3 col-xs-12 col-sm-12"><b>Voucher number</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.number +'</div><div class="col-md-3 col-xs-12 col-sm-12"><b>Name</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+item.name+'</div><div class="col-md-3 col-xs-12 col-sm 12"><b>Description</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.description+'</div><div class="col-md-3"><b>Term and Condition</b></div><div class="col-md-9">'+item.tnc+'</div><div class="col-md-3 col-xs-12 col-sm 12"><b>Expired Date</b></div><div class="col-md-9 col-xs-12 col-sm 12">'+ item.expired_date+'</div></div></div></div></div></div></div></div>')
+                        	});
+                        },
+                        error: function(data){
+                           	$("#activated").empty();
+                            $("#activated").append('<h1>Tidak mempunyai voucher yang sudah sudah expired</h1>');
+                        }
+                    });
+                });
+			</script>
+		</template>
+	</data>
+</openerp>
+
+
+
+													

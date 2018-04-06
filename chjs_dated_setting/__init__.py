@@ -1,0 +1,1 @@
+import chjs_dated_setting

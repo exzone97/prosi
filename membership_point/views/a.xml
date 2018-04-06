@@ -1,0 +1,50 @@
+
+					<t t-foreach="vouchers" t-as="voucher">
+						<div class="row ">
+							<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<t t-esc="voucher.name" />
+									</div>
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-md-3 col-xs-12 col-sm-12">
+												<center>	
+													<img t-attf-src="data:image/*;base64,{{voucher.thumbnail}}" style="width : 100% ; margin-bottom : 5 px;" />
+												</center>
+											</div>
+											<div class="col-md-9 col-xs-12 col-sm-12">
+												<div class="row">	
+													<div class="col-md-3 col-xs-12 col-sm-12">
+														<b>Name</b>
+													</div>
+													<div class="col-md-9 col-xs-12 col-sm 12">
+														<t t-esc="voucher.name" />
+													</div>
+													<div class="col-md-3 col-xs-12 col-sm 12">
+														<b>Description</b>
+													</div>
+													<div class="col-md-9 col-xs-12 col-sm 12">
+														<t t-esc="voucher.description" />
+													</div>
+													<div class="col-md-3 col-xs-12 col-sm 12">
+														<b>Point Price</b>
+													</div>
+													<div class="col-md-9 col-xs-12 col-sm 12">
+														<t t-esc="voucher.point_price" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">		
+												<center>
+													<a t-attf-href="/vouchers/detail/{{voucher.id}}" t-attf-class="btn btn-success btn-sm active" t-attf-role="button">Details</a>
+												</center>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</t>
